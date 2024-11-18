@@ -23,6 +23,11 @@ require 'rspec/rails'
 # Rails.root.glob('spec/support/**/*.rb').sort_by(&:to_s).each { |f| require f }
 
 RSpec.configure do |config|
+  # clean MongoDB after each test
+  config.after :each do
+    Mongoid.purge!
+  end
+
   # Remove this line to enable support for ActiveRecord
   config.use_active_record = false
 
@@ -53,3 +58,5 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 end
+
+RSpec::Matchers.define_negated_matcher :not_change, :change

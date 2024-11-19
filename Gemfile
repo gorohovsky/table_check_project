@@ -10,6 +10,8 @@ gem "mongoid"
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
+gem "http"
+
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin Ajax possible
 # gem "rack-cors"
 
@@ -20,9 +22,15 @@ group :development, :test do
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
 
+  gem "dotenv"
+
   gem "pry", "~> 0.15.0"
 
   gem "rubocop", require: false
 
   gem "rspec-rails", "~> 7.0.0"
+end
+
+group :test do
+  gem "webmock"
 end

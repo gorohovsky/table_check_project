@@ -35,3 +35,14 @@ Layout/LineLength:
 Style/BlockComments:
   Exclude:
     - 'spec/spec_helper.rb'
+
+Style/ArgumentsForwarding:
+  Enabled: false
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - 'spec/**/*'
+
+Layout/FirstArgumentIndentation:
+  Exclude:
+    - 'spec/**/*'

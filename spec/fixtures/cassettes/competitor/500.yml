@@ -1,0 +1,39 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://sinatra-pricing-api.fly.dev/prices?api_key=demo123
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Connection:
+      - close
+      Host:
+      - sinatra-pricing-api.fly.dev
+      User-Agent:
+      - http.rb/5.2.0
+  response:
+    status:
+      code: 500
+      message: Internal Server Error
+    headers:
+      Content-Type:
+      - application/json
+      X-Content-Type-Options:
+      - nosniff
+      Content-Length:
+      - '33'
+      Date:
+      - Wed, 20 Nov 2024 16:29:05 GMT
+      Server:
+      - Fly/2d24c4e4b (2024-11-19)
+      Via:
+      - 1.1 fly.io
+      Fly-Request-Id:
+      - 01JD56FSJXJGFWKSVF1SCCE36R-fra
+    body:
+      encoding: UTF-8
+      string: '{"error":"Internal Server Error"}'
+  recorded_at: Wed, 20 Nov 2024 16:29:05 GMT
+recorded_with: VCR 6.3.1

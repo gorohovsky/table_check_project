@@ -7,6 +7,18 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
+require 'vcr'
+
+VCR.configure do |config|
+  config.configure_rspec_metadata!
+  config.cassette_library_dir = 'spec/fixtures/cassettes'
+  config.hook_into :webmock
+end
+
+RSpec::Sidekiq.configure do |config|
+  config.warn_when_jobs_not_processed_by_sidekiq = false
+end
+
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -27,6 +39,8 @@ RSpec.configure do |config|
   config.after :each do
     Mongoid.purge!
   end
+
+  config.include FactoryBot::Syntax::Methods
 
   # Remove this line to enable support for ActiveRecord
   config.use_active_record = false

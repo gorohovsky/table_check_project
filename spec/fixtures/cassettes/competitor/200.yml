@@ -1,0 +1,75 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://sinatra-pricing-api.fly.dev/prices?api_key=demo123
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Connection:
+      - close
+      Host:
+      - sinatra-pricing-api.fly.dev
+      User-Agent:
+      - http.rb/5.2.0
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      X-Content-Type-Options:
+      - nosniff
+      Content-Length:
+      - '3712'
+      Date:
+      - Wed, 20 Nov 2024 16:29:49 GMT
+      Server:
+      - Fly/2d24c4e4b (2024-11-19)
+      Via:
+      - 1.1 fly.io
+      Fly-Request-Id:
+      - 01JD56H5SA72N16J9A2B9F9H5Q-fra
+    body:
+      encoding: UTF-8
+      string: '[{"name":"MC Hammer Pants","category":"Footwear","price":3005.0,"qty":285},{"name":"Thriller
+        Jacket","category":"Accessories","price":1330,"qty":241},{"name":"Cabbage
+        Patch Hat","category":"Clothing","price":1584,"qty":254},{"name":"Neon Legwarmers","category":"Footwear","price":876.0,"qty":198},{"name":"Rubik''s
+        Cube Shirt","category":"Footwear","price":1873.0,"qty":284},{"name":"Care
+        Bears Sweater","category":"Clothing","price":3396,"qty":230},{"name":"Ghostbusters
+        T-Shirt","category":"Clothing","price":4441,"qty":141},{"name":"Pac-Man Socks","category":"Footwear","price":3841.0,"qty":201},{"name":"Miami
+        Vice Sunglasses","category":"Footwear","price":6103.0,"qty":291},{"name":"Atari
+        Hoodie","category":"Footwear","price":6682.0,"qty":38},{"name":"Knight Rider
+        Gloves","category":"Footwear","price":8392.0,"qty":204},{"name":"DeLorean
+        Jacket","category":"Accessories","price":7450,"qty":69},{"name":"A-Team Headband","category":"Accessories","price":6072,"qty":23},{"name":"Trapper
+        Keeper Bag","category":"Clothing","price":3956,"qty":181},{"name":"Power Glove","category":"Footwear","price":3082.0,"qty":287},{"name":"Michael
+        Jackson Glove","category":"Accessories","price":1442,"qty":292},{"name":"ET
+        Backpack","category":"Accessories","price":506,"qty":109},{"name":"Transformer
+        Belt","category":"Clothing","price":7572,"qty":116},{"name":"Rambo Bandana","category":"Accessories","price":6204,"qty":53},{"name":"He-Man
+        Tank Top","category":"Footwear","price":6994.0,"qty":94},{"name":"Jem Earrings","category":"Accessories","price":7840,"qty":85},{"name":"Fraggle
+        Rock Scarf","category":"Clothing","price":2012,"qty":236},{"name":"Goonies
+        Cap","category":"Footwear","price":2229.0,"qty":257},{"name":"Duck Hunt Vest","category":"Accessories","price":3219,"qty":59},{"name":"Inspector
+        Gadget Coat","category":"Accessories","price":6034,"qty":282},{"name":"New
+        Kids on the Block Tee","category":"Clothing","price":2715,"qty":34},{"name":"Smurfs
+        Cap","category":"Accessories","price":6661,"qty":54},{"name":"Rainbow Brite
+        Bowtie","category":"Accessories","price":3480,"qty":128},{"name":"Gremlins
+        Mittens","category":"Footwear","price":1193.0,"qty":108},{"name":"My Little
+        Pony Shirt","category":"Accessories","price":5225,"qty":279},{"name":"Punky
+        Brewster Dress","category":"Accessories","price":7550,"qty":93},{"name":"Top
+        Gun Aviators","category":"Clothing","price":855,"qty":250},{"name":"Wacky
+        WallWalker Necklace","category":"Footwear","price":4381.0,"qty":241},{"name":"Ziggy
+        Earrings","category":"Footwear","price":5359.0,"qty":274},{"name":"Jelly Shoes","category":"Footwear","price":8968.0,"qty":169},{"name":"Legwarmers","category":"Clothing","price":5019,"qty":138},{"name":"Boombox
+        Belt","category":"Footwear","price":2282.0,"qty":91},{"name":"Swatch Watch","category":"Footwear","price":1587.0,"qty":25},{"name":"Reebok
+        Pumps","category":"Clothing","price":921,"qty":61},{"name":"Scrunchie","category":"Accessories","price":2818,"qty":205},{"name":"Hypercolor
+        T-Shirt","category":"Clothing","price":8686,"qty":213},{"name":"Lava Lamp
+        Necklace","category":"Accessories","price":7952,"qty":270},{"name":"Mullet
+        Wig","category":"Footwear","price":5369.0,"qty":41},{"name":"Walkman Headphones","category":"Footwear","price":1871.0,"qty":214},{"name":"Chia
+        Pet Sweater","category":"Clothing","price":3185,"qty":159},{"name":"Stretch
+        Armstrong Gloves","category":"Clothing","price":2851,"qty":174},{"name":"Pee-wee''s
+        Bowtie","category":"Clothing","price":5992,"qty":198},{"name":"Slap Bracelet","category":"Clothing","price":5208,"qty":85},{"name":"Garbage
+        Pail Kids Tee","category":"Clothing","price":7681,"qty":129},{"name":"Cassette
+        Tape Bag","category":"Footwear","price":8750.0,"qty":177}]'
+  recorded_at: Wed, 20 Nov 2024 16:29:49 GMT
+recorded_with: VCR 6.3.1

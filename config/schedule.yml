@@ -1,0 +1,3 @@
+competitor_price_fetch:
+  class: "CompetitorPriceFetchJob"
+  cron: "*/30 * * * *"

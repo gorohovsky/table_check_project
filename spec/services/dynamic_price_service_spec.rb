@@ -5,12 +5,9 @@ describe DynamicPriceService do
 
   describe '#initialize' do
     let(:product) { build(:product) }
-    let(:competing_price) { 500 }
 
-    it 'assigns the provided product and its competing price to instance variables' do
-      expect(product).to receive(:competing_price).and_return competing_price
+    it 'assigns the provided product to an instance variable' do
       expect(instance.instance_variable_get(:@product)).to eq product
-      expect(instance.instance_variable_get(:@competing_price)).to eq competing_price
     end
   end
 

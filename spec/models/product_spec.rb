@@ -29,4 +29,48 @@ describe Product, type: :model do
       product.update_competing_price value
     end
   end
+
+  describe '#stock_level' do
+    it 'return a symbol corresponding to the stock level' do
+      product.stock = 1000
+      expect(product.stock_level).to eq :very_high
+
+      product.stock = 999
+      expect(product.stock_level).to eq :high
+
+      product.stock = 500
+      expect(product.stock_level).to eq :high
+
+      product.stock = 499
+      expect(product.stock_level).to eq :medium
+
+      product.stock = 50
+      expect(product.stock_level).to eq :medium
+
+      product.stock = 49
+      expect(product.stock_level).to eq :low
+
+      product.stock = 1
+      expect(product.stock_level).to eq :low
+    end
+  end
+
+  describe '#demand_level' do
+    it 'return a symbol corresponding to the demand level' do
+      product.demand = 100
+      expect(product.demand_level).to eq :high
+
+      product.demand = 99
+      expect(product.demand_level).to eq :medium
+
+      product.demand = 30
+      expect(product.demand_level).to eq :medium
+
+      product.demand = 15
+      expect(product.demand_level).to eq :low
+
+      product.demand = 0
+      expect(product.demand_level).to eq :low
+    end
+  end
 end

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :orders, only: %i[index show create], defaults: { format: :json }
+
   resources :products, only: %i[index show], defaults: { format: :json } do
     post 'import', on: :collection
   end

@@ -73,4 +73,36 @@ describe Product, type: :model do
       expect(product.demand_level).to eq :low
     end
   end
+
+  describe '#reduce_stock_by' do
+    subject { product.reduce_stock_by(quantity) }
+
+    context 'when stock is sufficient' do
+      let(:quantity) { 300 }
+
+      it 'deducts supplied quantity from the stock (without saving)' do
+        expect { subject }.to change { product.stock }.by(-quantity)
+      end
+    end
+  end
+
+  describe '#increment_demand' do
+    subject { product.increment_demand(event) }
+
+    context 'when added to cart' do
+      let(:event) { :cart }
+
+      specify 'demand is increased by 1 (without saving)' do
+        expect { subject }.to change { product.demand }.by 1
+      end
+    end
+
+    context 'when bought' do
+      let(:event) { :purchase }
+
+      specify 'demand is increased by 10 (without saving)' do
+        expect { subject }.to change { product.demand }.by 10
+      end
+    end
+  end
 end

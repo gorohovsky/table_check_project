@@ -12,7 +12,7 @@ class Product
 
   validates :name, presence: true
   validates :default_price, numericality: { only_integer: true, greater_than: 0 }
-  validates :stock, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :stock, :demand, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   CACHE_KEY_TEMPLATE = 'competing_prices/%s'.freeze
   CACHE_TTL = 3.hours.to_i
@@ -23,6 +23,8 @@ class Product
 
   MEDIUM_DEMAND_LEVEL = 30
   HIGH_DEMAND_LEVEL = 100
+
+  DEMAND_INCREASE_STEP = { cart: 1, purchase: 10 }.freeze
 
   def competing_price
     Rails.cache.read cache_key
@@ -54,6 +56,20 @@ class Product
     when ...MEDIUM_DEMAND_LEVEL
       :low
     end
+  end
+
+  def purchase!(product_quantity)
+    reduce_stock_by product_quantity
+    increment_demand :purchase
+    save!
+  end
+
+  def reduce_stock_by(quantity)
+    self.stock = stock - quantity
+  end
+
+  def increment_demand(event)
+    self.demand = demand + DEMAND_INCREASE_STEP[event]
   end
 
   private

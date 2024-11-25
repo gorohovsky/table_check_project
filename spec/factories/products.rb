@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :product do
-    name { 'Sample product' }
+    name { Faker::Commerce.product_name }
     default_price { 600 }
     demand { 20 }
     stock { 500 }

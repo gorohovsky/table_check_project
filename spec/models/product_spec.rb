@@ -63,10 +63,10 @@ describe Product, type: :model do
       product.demand = 99
       expect(product.demand_level).to eq :medium
 
-      product.demand = 30
+      product.demand = 40
       expect(product.demand_level).to eq :medium
 
-      product.demand = 15
+      product.demand = 30
       expect(product.demand_level).to eq :low
 
       product.demand = 0
@@ -103,6 +103,18 @@ describe Product, type: :model do
       specify 'demand is increased by 10 (without saving)' do
         expect { subject }.to change { product.demand }.by 10
       end
+    end
+  end
+
+  describe '#orders' do
+    let(:products) { create_list(:product, 2) }
+    let(:order1) { create(:order, products: { products[0] => 1, products[1] => 1 }) }
+    let(:order2) { create(:order, products: { products[0] => 1 }) }
+    let(:order3) { create(:order, products: { products[1] => 1 }) }
+
+    it 'returns orders containing the product' do
+      expect(products[0].orders).to contain_exactly(order1, order2)
+      expect(products[1].orders).to contain_exactly(order1, order3)
     end
   end
 end

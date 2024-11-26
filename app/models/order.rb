@@ -3,6 +3,8 @@ class Order
   include Mongoid::Timestamps
 
   field :total, type: Integer, default: 0
+  index({ created_at: 1 })
+  index({ 'order_products.product_id' => 1 })
 
   embeds_many :order_products
 

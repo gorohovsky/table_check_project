@@ -21,10 +21,17 @@ class Product
   HIGH_STOCK_LEVEL = 500
   VERY_HIGH_STOCK_LEVEL = 1000
 
-  MEDIUM_DEMAND_LEVEL = 30
-  HIGH_DEMAND_LEVEL = 100
+  DEMAND_TO_DAILY_PURCHASES = { low: 1..3, medium: 4..9, high: 10.. }.freeze
+
+  %i[medium high].each do |level|
+    const_set("#{level.upcase}_DEMAND_LEVEL", DEMAND_TO_DAILY_PURCHASES[level].first * 10)
+  end
 
   DEMAND_INCREASE_STEP = { cart: 1, purchase: 10 }.freeze
+
+  def orders
+    Order.any_of('order_products.product_id' => id)
+  end
 
   def competing_price
     Rails.cache.read cache_key

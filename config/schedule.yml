@@ -1,3 +1,7 @@
 competitor_price_fetch:
   class: "CompetitorPriceFetchJob"
   cron: "*/30 * * * *"
+
+demand_decay:
+  class: "DemandDecayJob"
+  cron: "0 * * * *"

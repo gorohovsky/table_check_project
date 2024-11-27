@@ -24,7 +24,7 @@ class OrdersController < ApplicationController
   end
 
   def validate_params
-    validation = ParamSchemas::Orders::Create.call(order_params)
+    validation = validation_schema.call(order_params)
 
     if validation.success?
       @valid_params = validation.to_h

@@ -79,6 +79,10 @@ class Product
     self.demand = demand + DEMAND_INCREASE_STEP[event]
   end
 
+  def increment_demand!(event)
+    increment_demand(event) && save!
+  end
+
   private
 
   def cache_key

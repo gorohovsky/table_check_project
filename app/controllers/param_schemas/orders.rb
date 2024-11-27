@@ -1,7 +1,5 @@
 module ParamSchemas
   module Orders
-    Dry::Schema.load_extensions :hints
-
     Create = Dry::Schema.Params do
       required(:order).filled(:hash) do
         required(:products).value(:array, min_size?: 1).each do

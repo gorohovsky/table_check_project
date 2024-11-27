@@ -1,9 +1,13 @@
 Rails.application.routes.draw do
-  resources :orders, only: %i[index show create], defaults: { format: :json }
-
   resources :products, only: %i[index show], defaults: { format: :json } do
     post 'import', on: :collection
   end
+
+  resources :carts, only: :show, defaults: { format: :json } do
+    post 'add_product', on: :collection
+  end
+
+  resources :orders, only: %i[index show create], defaults: { format: :json }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

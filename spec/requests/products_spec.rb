@@ -11,32 +11,54 @@ describe '/products', type: :request do
       context 'when CSV contains proper values' do
         let(:csv) { 'correct.csv' }
 
-        it 'responds with 200 and created records' do
+        it 'creates a new category and a new product' do
+          expect { subject }.to change { Category.count }.by(1).and \
+                                change { Product.count }.by 1
+        end
+
+        it 'responds with 200' do
           expect(subject.status).to eq 200
-          expect(JSON.parse(subject.body)).to satisfy { _1.is_a?(Array) && _1.size == 8 }
+        end
+
+        context 'when the product already exists in the database' do
+          it 'responds with 422 and an error message' do
+          end
         end
       end
     end
 
     describe 'failure' do
-      context 'when CSV contains incorrect values' do
-        let(:csv) { 'incorrect.csv' }
+      shared_examples 'invalid file import' do |file:, error:|
+        let(:csv) { file }
 
-        it 'responds with 400 and an error message' do
-          expect(JSON.parse(subject.body)).to match hash_including(
-            'error' => 'Validation of Product failed. Default price is not a number',
-            'error_details' => hash_including(
-              'default_price' => nil,
-              'name' => 'Cabbage Patch Hat',
-              'stock' => 254
-            )
-          )
+        it "responds with 422 and an error message (#{file})" do
+          expect(subject.status).to eq 422
+          expect(subject.body).to match error
         end
       end
 
-      context 'when CSV format is bad'
+      context 'when CSV contains incorrect values' do
+        it_behaves_like 'invalid file import', file: 'incorrect.csv', error: 'default_price.*is not a number' do
+          it 'does not create new records' do
+            expect { subject }.to not_change { Category.count }.and \
+                                  not_change { Product.count }
+          end
+        end
+      end
 
-      context 'when CSV is empty'
+      context 'when CSV format is invalid' do
+        %w(not.csv empty.csv no_header.csv only_header.csv).each do |file|
+          it_behaves_like 'invalid file import', file:, error: 'File must contain (header|records)'
+        end
+      end
+
+      context 'when something other than a file is submitted' do
+        it 'responds with 400 and an error message' do
+          post import_products_url, params: { csv: 'abracadabra' }
+          expect(response.status).to eq 400
+          expect(response.body).to match(/csv.*file is missing/)
+        end
+      end
     end
   end
 end

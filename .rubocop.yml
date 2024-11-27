@@ -46,3 +46,7 @@ Lint/AmbiguousBlockAssociation:
 Layout/FirstArgumentIndentation:
   Exclude:
     - 'spec/**/*'
+
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%w': '()'

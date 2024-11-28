@@ -6,7 +6,7 @@ class Order
   index({ created_at: 1 })
   index({ 'order_products.product_id' => 1 })
 
-  embeds_many :order_products
+  embeds_many :order_products # TODO: change to array of hashes
 
   attr_accessor :products
 

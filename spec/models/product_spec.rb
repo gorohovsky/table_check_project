@@ -30,6 +30,47 @@ describe Product, type: :model do
     end
   end
 
+  describe '#dynamic_price' do
+    context 'when competing price is not set' do
+      let(:product) { build(:product, default_price: 100, stock: 50, demand: 5) }
+
+      it 'calculates the dynamic price based on stock and demand' do
+        expect(product.dynamic_price).to eq 110
+      end
+    end
+
+    context 'when competing price is set' do
+      let(:product) { build(:product, default_price: 100, stock: 10, demand: 150) }
+
+      context 'and is higher than the default price and lower than the price cap' do
+        let(:competing_price) { 120 }
+
+        specify 'the dynamic price does not exceed the competing price' do
+          product.update_competing_price competing_price
+          expect(product.dynamic_price).to eq competing_price
+        end
+      end
+
+      context 'and is lower than the default price' do
+        let(:competing_price) { 95 }
+
+        specify 'the dynamic price does not fall below the default price' do
+          product.update_competing_price competing_price
+          expect(product.dynamic_price).to eq product.default_price
+        end
+      end
+
+      context 'and is higher than the price cap' do
+        let(:competing_price) { 140 }
+
+        specify 'the dynamic price does not exceed the price cap' do
+          product.update_competing_price competing_price
+          expect(product.dynamic_price).to eq 130
+        end
+      end
+    end
+  end
+
   describe '#stock_level' do
     it 'return a symbol corresponding to the stock level' do
       product.stock = 1000

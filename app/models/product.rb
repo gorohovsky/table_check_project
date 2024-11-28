@@ -24,9 +24,8 @@ class Product
 
   DEMAND_TO_DAILY_PURCHASES = { low: 1..3, medium: 4..9, high: 10.. }.freeze
 
-  %i[medium high].each do |level|
-    const_set("#{level.upcase}_DEMAND_LEVEL", DEMAND_TO_DAILY_PURCHASES[level].first * 10)
-  end
+  MEDIUM_DEMAND_LEVEL = DEMAND_TO_DAILY_PURCHASES[:medium].first * 10
+  HIGH_DEMAND_LEVEL = DEMAND_TO_DAILY_PURCHASES[:high].first * 10
 
   DEMAND_INCREASE_STEP = { cart: 1, purchase: 10 }.freeze
 
@@ -64,6 +63,10 @@ class Product
     when ...MEDIUM_DEMAND_LEVEL
       :low
     end
+  end
+
+  def dynamic_price
+    DynamicPriceService.new(self).calculate
   end
 
   def purchase!(product_quantity)

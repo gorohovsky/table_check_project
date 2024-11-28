@@ -13,7 +13,11 @@ describe 'Carts', type: :request do
     context 'when the cart exists' do
       it 'responds with 200 and the cart' do
         expect(subject.status).to eq 200
-        expect(JSON.parse(subject.body)).to eq cart.as_json
+        expect(JSON.parse(subject.body)).to include(
+          'id' => cart.id,
+          'products' => array_including,
+          'total' => '0.00'
+        )
       end
     end
 
@@ -44,7 +48,9 @@ describe 'Carts', type: :request do
     shared_examples 'nonexistent cart' do
       context 'when the product exists' do
         it_behaves_like 'cart creation'
-        it_behaves_like 'cart content response'
+        it_behaves_like 'cart content response', total: '18.00' do
+          let(:expected_cart_id) { Cart.last.id }
+        end
       end
 
       context 'when the product does not exist' do
@@ -54,15 +60,18 @@ describe 'Carts', type: :request do
       end
     end
 
-    shared_examples 'cart content response' do
+    shared_examples 'cart content response' do |total:|
+      let(:expected_cart_id) { cart.id }
+
       it 'responds with 200 and the cart content' do
         expect(subject.status).to eq 200
         expect(JSON.parse(subject.body)).to include(
+          'id' => expected_cart_id,
           'products' => [{
             'product_id' => product.id.to_s,
             'quantity' => total_quantity
           }],
-          'total' => total_quantity * product.default_price
+          'total' => total
         )
       end
     end
@@ -90,13 +99,13 @@ describe 'Carts', type: :request do
           expect { subject }.to change { cart.reload.products.count }.by 1
         end
 
-        it_behaves_like 'cart content response'
+        it_behaves_like 'cart content response', total: '18.00'
 
-        context 'when it is already in the cart, it adds up the specified quantity' do
+        context 'and is already in the cart, it adds up the specified quantity' do
           let(:total_quantity) { 5 }
-          let!(:cart) { create(:cart, products: [ { product_id: product.id, quantity: 2 } ], total: 1200) }
+          let!(:cart) { create(:cart, cart_items: [ { product_id: product.id, quantity: 2 } ]) }
 
-          it_behaves_like 'cart content response'
+          it_behaves_like 'cart content response', total: '30.00'
         end
       end
 

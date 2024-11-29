@@ -4,16 +4,15 @@ class ProductsController < ApplicationController
   before_action :validate_params, only: :import
 
   def index
-    render json: Product.all
+    @products = Product.all.includes(:category)
   end
 
   def show
-    render json: Product.find(params[:id])
+    @product = Product.find(params[:id])
   end
 
   def import
-    ProductImportService.new(params[:csv].tempfile).process
-    head 200 # TODO: return created records or their number
+    @records = ProductImportService.new(params[:csv].tempfile).process
   end
 
   private

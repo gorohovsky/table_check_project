@@ -3,7 +3,7 @@ require 'csv'
 class ProductImportService
   HEADER = %w(NAME CATEGORY DEFAULT_PRICE QTY).freeze
   PARSING_OPTIONS = { headers: true, return_headers: false }.freeze
-  PRODUCT_COLUMN_MAPPING = { name: 'NAME', default_price: 'DEFAULT_PRICE', stock: 'QTY' }.freeze
+  PRODUCT_COLUMN_MAPPING = { name: HEADER[0], default_price: HEADER[2], stock: HEADER[3] }.freeze
 
   def initialize(csv_file)
     @csv_file = csv_file

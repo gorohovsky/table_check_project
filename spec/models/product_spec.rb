@@ -149,9 +149,9 @@ describe Product, type: :model do
 
   describe '#orders' do
     let(:products) { create_list(:product, 2) }
-    let(:order1) { create(:order, products: { products[0] => 1, products[1] => 1 }) }
-    let(:order2) { create(:order, products: { products[0] => 1 }) }
-    let(:order3) { create(:order, products: { products[1] => 1 }) }
+    let(:order1) { create(:order, products: products) }
+    let(:order2) { create(:order, products: [products[0]]) }
+    let(:order3) { create(:order, products: [products[1]]) }
 
     it 'returns orders containing the product' do
       expect(products[0].orders).to contain_exactly(order1, order2)

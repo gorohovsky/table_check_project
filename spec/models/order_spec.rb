@@ -2,31 +2,28 @@ require 'rails_helper'
 
 describe Order, type: :model do
   let(:product) { create(:product) }
-  let(:instance) { Order.new(products: products) }
+  let(:order) { build(:order, products: [product], quantity:) }
 
   describe '#save_updating_products!' do
-    subject { instance.save_updating_products! }
+    subject { order.save_updating_products! }
 
-    describe 'failure' do
-      context 'when stock is lower than requested' do
-        let(:products) { { product => 700 } }
+    context 'when stock is lower than requested' do
+      let(:quantity) { 700 }
 
-        it 'raises a validation error' do
-          expect { subject }.to raise_error(Mongoid::Errors::Validations, /Stock must be greater than or equal to 0/)
-        end
+      it 'raises a validation error' do
+        expect { subject }.to raise_error(Mongoid::Errors::Validations, /Stock must be greater than or equal to 0/)
+      end
 
-        it 'does not create an order, modify stock or increase demand' do
-          expect { subject }.to raise_error(Mongoid::Errors::Validations).and \
-                                not_change { Order.count }.and \
-                                not_change { product.reload.stock }.and \
-                                not_change { product.reload.demand }
-        end
+      it 'does not create an order, modify stock or increase demand' do
+        expect { subject }.to raise_error(Mongoid::Errors::Validations).and \
+                              not_change { Order.count }.and \
+                              not_change { product.reload.stock }.and \
+                              not_change { product.demand }
       end
     end
 
     context 'when stock is sufficient' do
       let(:quantity) { 5 }
-      let(:products) { { product => quantity } }
 
       it 'creates a new order' do
         expect { subject }.to change { Order.count }.by 1
@@ -42,8 +39,28 @@ describe Order, type: :model do
 
       it 'sets correct total' do
         subject
-        expect(instance.total).to eq 3000
+        expect(order.total).to eq 3000
       end
+    end
+  end
+
+  describe '#add_product' do
+    let(:quantity) { 5 }
+    let(:order) { build(:order) }
+
+    subject { order.add_product(product, quantity) }
+
+    it 'adds the product and the quantity to order items' do
+      expect(order.order_items).to be_empty
+      subject
+      expect(order.order_items.size).to eq 1
+      expect(order.order_items.first).to have_attributes(
+        product:,
+        quantity:,
+        product_id: product.id,
+        product_name: product.name,
+        price: product.dynamic_price
+      )
     end
   end
 end

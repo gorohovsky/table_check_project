@@ -4,32 +4,27 @@ class OrdersController < ApplicationController
   before_action :validate_params, only: :create
 
   def index
-    render json: Order.all
+    @orders = Order.all
   end
 
   def show
-    render json: Order.find(params[:id])
+    @order = Order.find(params[:id])
   end
 
   def create
     @order = OrderCreationService.new(products_params).execute
-
-    render json: @order, status: 201, location: @order
+    render 'orders/create', status: 201
   end
 
   private
 
-  def order_params
-    params.slice(:order).to_unsafe_h
-  end
-
   def validate_params
-    validation = validation_schema.call(order_params)
+    validation = validation_schema.call(params.to_unsafe_h)
 
     if validation.success?
       @valid_params = validation.to_h
     else
-      render json: { errors: validation.messages.to_h }, status: 400 # TODO: prettify error messages
+      render json: { errors: validation.messages.to_h }, status: 400
     end
   end
 

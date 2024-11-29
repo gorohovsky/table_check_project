@@ -8,12 +8,12 @@ describe OrderCreationService do
     subject { described_class.new(order_params).execute }
 
     it 'instantiates Order and proceeds with saving' do
-      expect(Order).to receive(:new).with(
-        products: { products[0] => 1, products[1] => 2, products[2] => 3 }
-      ).and_call_original
+      products.each_with_index do |product, i|
+        expect_any_instance_of(Order).to receive(:add_product).with(product, i + 1).and_call_original
+      end
 
-      expect_any_instance_of(Order).to receive :save_updating_products!
-      subject
+      expect_any_instance_of(Order).to receive(:save_updating_products!).and_call_original
+      expect(subject).to be_a Order
     end
 
     shared_examples 'raised exception' do |exception|

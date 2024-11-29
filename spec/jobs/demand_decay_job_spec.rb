@@ -2,18 +2,18 @@ require 'rails_helper'
 
 describe DemandDecayJob, type: :job do
   let(:product) { create(:product) }
-  let(:products_hash) { { product => 1 } }
+  let(:products) { [product] }
 
   let(:high_demand) do
-    create_list(:order, 10, products: products_hash)
+    create_list(:order, 10, products:)
   end
 
   let(:medium_demand) do
-    create_list(:order, 7, products: products_hash)
+    create_list(:order, 7, products:)
   end
 
   let(:low_demand) do
-    create_list(:order, 2, products: products_hash)
+    create_list(:order, 2, products:)
   end
 
   subject { described_class.perform_now }

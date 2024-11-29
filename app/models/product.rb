@@ -30,7 +30,7 @@ class Product
   DEMAND_INCREASE_STEP = { cart: 1, purchase: 10 }.freeze
 
   def orders
-    Order.any_of('order_products.product_id' => id)
+    Order.any_of('order_items.product_id' => id)
   end
 
   def competing_price

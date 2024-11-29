@@ -1,7 +1,7 @@
-class OrderProduct
+class OrderItem
   include Mongoid::Document
 
-  field :_id, type: Object
+  field :_id
   field :product_id, type: BSON::ObjectId
   field :product_name, type: String
   field :price, type: Integer
@@ -11,7 +11,7 @@ class OrderProduct
 
   attr_writer :product
 
-  before_validation :set_product_attributes
+  after_build :set_product_attributes
 
   validates :product_id, :product_name, presence: true
   validates :price, :quantity, numericality: { only_integer: true, greater_than: 0 }
@@ -20,11 +20,17 @@ class OrderProduct
     @product ||= Product.find product_id
   end
 
+  def purchase!
+    product.purchase! quantity
+  end
+
+  def total_price = quantity * price
+
   private
 
   def set_product_attributes
     self.product_id = product.id
     self.product_name = product.name
-    self.price = product.default_price # TODO: change to dynamic price
+    self.price = product.dynamic_price.round
   end
 end

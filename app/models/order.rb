@@ -4,29 +4,29 @@ class Order
 
   field :total, type: Integer, default: 0
   index({ created_at: 1 })
-  index({ 'order_products.product_id' => 1 })
+  index({ 'order_items.product_id' => 1 })
 
-  embeds_many :order_products # TODO: change to array of hashes
+  embeds_many :order_items
 
-  attr_accessor :products
+  before_validation :calculate_total
 
-  validates :order_products, presence: true
+  validates :order_items, presence: true
   validates :total, numericality: { only_integer: true, greater_than: 0 }
 
   def save_updating_products!
     transaction do
-      products.each_pair do |product, quantity|
-        product.purchase! quantity
-        populate_order_info(product, quantity)
-      end
+      order_items.each(&:purchase!)
       save!
     end
   end
 
+  def add_product(product, quantity)
+    order_items.build(product:, quantity:)
+  end
+
   private
 
-  def populate_order_info(product, quantity)
-    order_products.build(product:, quantity:)
-    self.total += product.default_price * quantity
+  def calculate_total
+    self.total = order_items.sum(&:total_price)
   end
 end

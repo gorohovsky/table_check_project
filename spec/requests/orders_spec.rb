@@ -27,11 +27,12 @@ describe '/orders', type: :request do
       it 'responds with 201 and the serialized order' do
         expect(subject.status).to eq 201
         expect(JSON.parse(subject.body)).to include(
-          'order_products' => [
-            include('quantity' => 1, 'product_id' => products[0].id, 'product_name' => products[0].name, 'price' => 600),
-            include('quantity' => 2, 'product_id' => products[1].id, 'product_name' => products[1].name, 'price' => 600)
+          'id' => Order.last.id.to_s,
+          'products' => [
+            include('quantity' => 1, 'product_id' => products[0].id, 'product_name' => products[0].name, 'price' => '6.00'),
+            include('quantity' => 2, 'product_id' => products[1].id, 'product_name' => products[1].name, 'price' => '6.00')
           ],
-          'total' => 1800
+          'total' => '18.00'
         )
       end
     end

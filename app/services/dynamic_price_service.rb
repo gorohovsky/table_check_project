@@ -2,8 +2,8 @@
 class DynamicPriceService
   delegate :competing_price, :default_price, :demand_level, :stock_level, to: :@product
 
-  STOCK_FACTORS = { low: '0.2'.to_d, medium: '0.1'.to_d, high: '0'.to_d, very_high: '-0.1'.to_d }.freeze
-  DEMAND_FACTORS = { low: '0'.to_d, medium: '0.1'.to_d, high: '0.2'.to_d }.freeze
+  STOCK_FACTORS = { low: '0.2', medium: '0.1', high: '0', very_high: '-0.1' }.transform_values!(&:to_d).freeze
+  DEMAND_FACTORS = { low: '0', medium: '0.1', high: '0.2' }.transform_values!(&:to_d).freeze
   PRICE_CAP_MULTIPLIER = '1.3'.to_d
 
   def initialize(product)

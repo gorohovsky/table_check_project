@@ -14,15 +14,6 @@ class CartsController < ApplicationController
 
   private
 
-  def validate_params
-    validation = validation_schema.call(params.to_unsafe_h)
-    if validation.success?
-      @valid_params = validation.to_h
-    else
-      render json: { errors: validation.messages.to_h }, status: 400
-    end
-  end
-
   def set_cart
     @cart = Cart.where(id: params[:cart_id]).first || Cart.create!
   end

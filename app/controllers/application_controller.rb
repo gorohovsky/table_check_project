@@ -1,12 +1,10 @@
 class ApplicationController < ActionController::API
+  include ParamsGuard
+
   rescue_from Mongoid::Errors::Validations, with: :document_invalid_response
   rescue_from Mongoid::Errors::DocumentNotFound, with: :document_not_found_response
 
   private
-
-  def validation_schema
-    ParamSchemas.const_get "#{controller_name.camelcase}::#{action_name.camelcase}"
-  end
 
   def document_invalid_response(error)
     document = error.document

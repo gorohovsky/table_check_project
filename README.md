@@ -64,21 +64,21 @@ Run MongoDB:
 docker run --rm \
   -p 27017:27017 \
   -v mongo_data:/data/db \
-  -v mongo.key:/data/mongo.key:ro \
+  -v ./mongo.key:/data/mongo.key:ro \
   -e MONGO_INITDB_ROOT_USERNAME=root \
   -e MONGO_INITDB_ROOT_PASSWORD=root \
   -e MONGO_REPLSET=rs0 \
+  --name mongo mongo:7.0.15 \
   --replSet 'rs0' \
   --keyFile /data/mongo.key \
-  --bind_ip_all \
-  --name mongo mongo:7.0.15
+  --bind_ip_all
 ```
 
 Once MongoDB is running, initialize a replica set (required for transactions to work):
 
 ```bash
-docker exec -it mongo \
-  mongosh -u root -p root \
+docker exec -it mongo mongosh \
+  -u root -p root \
   --authenticationDatabase admin \
   --eval 'rs.initiate({_id: "rs0", members: [{_id: 0, host: "localhost:27017"}]})'
 ```

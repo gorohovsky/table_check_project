@@ -35,20 +35,13 @@ It consists of several main components:
 - Bundler 2.5.21
 - Docker
 
-### 1. Pull the required Docker images for MongoDB and Redis
-
-```bash
-docker pull mongo:7.0.15
-docker pull redis
-```
-
-### 2. Install gems
+### 1. Install gems
 
 ```bash
 bundle install
 ```
 
-### 3. Database setup
+### 2. Database setup
 
 Generate a key for MongoDB:
 
@@ -58,29 +51,10 @@ chmod 400 mongo.key
 chown 999:999 mongo.key
 ```
 
-Run MongoDB:
+Run MongoDB and Redis:
 
 ```bash
-docker run --rm \
-  -p 27017:27017 \
-  -v mongo_data:/data/db \
-  -v ./mongo.key:/data/mongo.key:ro \
-  -e MONGO_INITDB_ROOT_USERNAME=root \
-  -e MONGO_INITDB_ROOT_PASSWORD=root \
-  -e MONGO_REPLSET=rs0 \
-  --name mongo mongo:7.0.15 \
-  --replSet 'rs0' \
-  --keyFile /data/mongo.key \
-  --bind_ip_all
-```
-
-Once MongoDB is running, initialize a replica set (required for transactions to work):
-
-```bash
-docker exec -it mongo mongosh \
-  -u root -p root \
-  --authenticationDatabase admin \
-  --eval 'rs.initiate({_id: "rs0", members: [{_id: 0, host: "localhost:27017"}]})'
+docker compose up
 ```
 
 Create databases for both the development and test environments:
@@ -90,7 +64,7 @@ rails db:setup
 RAILS_ENV=test rails db:setup
 ```
 
-### 4. Environment variables
+### 3. Environment variables
 
 Set them in the `.env` file (a template is provided) or in the environment itself:
 
@@ -99,19 +73,13 @@ COMPETITOR_URL
 REDIS_URL
 ```
 
-### 5. Run Redis for background job processing and caching competitor prices
-
-```bash
-docker run -p 6379:6379 --rm --name redis redis
-```
-
-### 6. Start Sidekiq
+### 4. Start Sidekiq
 
 ```bash
 sidekiq
 ```
 
-Now you should be all set to run the Rails server using `rails s` or use RSpec.
+Now you should be all set to run the application using `rails s` or use RSpec.
 
 
 # cURL Samples

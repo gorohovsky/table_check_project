@@ -1,6 +1,6 @@
 # Project Overview
 
-This project was developed as a response to [the evaluation task from TableCheck](assignment.md).
+This project was developed as a response to [the evaluation task from TableCheck](ASSIGNMENT.md).
 
 It consists of several main components:
 
@@ -27,13 +27,13 @@ It consists of several main components:
 - **Demand assessment**: 
   - Once per hour, product demand is evaluated. If demand declines, product price will be reduced.
 
-## Prerequisites
+# Deployment
+
+### Prerequisites
 
 - Ruby 3.3.5
 - Bundler 2.5.21
 - Docker
-
-## Deployment
 
 ### 1. Pull the required Docker images for MongoDB and Redis
 
@@ -114,7 +114,7 @@ sidekiq
 Now you should be all set to run the Rails server using `rails s` or use RSpec.
 
 
-## cURL Samples
+# cURL Samples
 
 ### Products API
 

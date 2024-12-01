@@ -11,21 +11,32 @@ It consists of several main components:
   - for checking competitor prices periodically.
   - for controlling product demand levels.
 
-## High-Level Dynamic Pricing Engine Overview
+## Dynamic Pricing Engine Overview
 
-- **Demand and stock-based price adjustments**: 
-  - Every time a product is added to a cart or purchased, its demand increases, causing its price to rise.
-  - Purchases not only increase demand but also decrease stock. Both factors impact the price increase.
+- **_Demand and stock-based price adjustments_**
 
-- **Competitor-based price adjustments**: 
-  - Every 30 minutes the competitor's prices are checked.
-  - Product prices are adjusted based on the following rules:
-    1. Price, calculated from demand and stock levels, should never exceed the competitor's price or the price cap, which is set as product's default price multiplied by 1.3.
-    2. Price should never fall below product default price.
-    3. If competitor's price is lower than default product's price, the second rule comes into play.
+  There are two factors that impact a product's dynamic price: demand and stock level. The rules are:
 
-- **Demand assessment**: 
-  - Once per hour, product demand is evaluated. If demand declines, product price will be reduced.
+  - Each time a product is _**added to a cart**_, its demand level increases by 1 point.
+
+  - Each time a product is _**purchased**_, its demand level increases by 10 points, and its stock is reduced by the quantity of items purchased.
+
+  - The higher the demand and the lower the stock, the higher the dynamic price. And vice versa.
+
+- **_Demand assessment_**
+
+  Once per hour, product demand is evaluated, and based on its level, the following adjustments are made:
+    - High demand (10+ purchases/24 hours): No decay.
+    - Medium demand (4-9 purchases/24 hours): Low decay (-2 demand points).
+    - Low demand (1-3 purchases/24 hours): Medium decay (-5 demand points).
+    - No demand (0 purchases/24 hours): High decay (-10 demand points).
+
+- **_Competitor-based price adjustments_**
+
+  Every 30 minutes the competitor's prices are checked and stored. The product dynamic price is based on the following rules:
+    1. The price, calculated from demand and stock levels, should never exceed the competitor's price or the price cap, which is set as product's default price multiplied by 1.3.
+    2. The price should never fall below the product's default price.
+    3. If competitor's price is lower than product's default price, the second rule comes into play.
 
 # Deployment
 
@@ -66,7 +77,7 @@ RAILS_ENV=test rails db:setup
 
 ### 3. Environment variables
 
-Set them in the `.env` file (a template is provided) or in the environment itself:
+Set them in the `.env` file (a [template](.env.template) is provided) or in the environment itself:
 
 ```bash
 COMPETITOR_URL

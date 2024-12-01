@@ -190,7 +190,7 @@ Response:
 >*Note: The "cart_id" parameter here is optional. If it's not provided, a new cart is created automatically.*
 
 ```bash
-curl --location --request POST 'localhost:3000/carts/add_product?product_id=674854ad5c0d64495811b3a2&quantity=30&cart_id=67485cb1000cd84fb22e6cfb'
+curl --location --request PUT 'localhost:3000/carts/add_product?product_id=674854ad5c0d64495811b3a2&quantity=30&cart_id=67485cb1000cd84fb22e6cfb'
 ```
 
 Response:

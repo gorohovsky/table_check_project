@@ -31,13 +31,13 @@ describe 'Carts', type: :request do
     end
   end
 
-  describe 'POST /add_product' do
+  describe 'PUT /add_product' do
     let(:quantity) { 3 }
     let(:total_quantity) { quantity }
     let(:params) { { cart_id: cart.id, product_id: product.id, quantity: } }
 
     subject do
-      post add_product_carts_url, params: params, as: :json
+      put add_product_carts_url, params: params, as: :json
       response
     end
 

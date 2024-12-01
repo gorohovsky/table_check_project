@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   end
 
   resources :carts, only: :show, defaults: { format: :json } do
-    post 'add_product', on: :collection
+    put 'add_product', on: :collection
   end
 
   resources :orders, only: %i[index show create], defaults: { format: :json }

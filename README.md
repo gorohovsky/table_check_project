@@ -148,6 +148,8 @@ Response:
 
 - **Import products from CSV**
 
+>*Note: [Here](inventory.csv) is a CSV file with randomized product default prices and quantities for easier dynamic pricing testing.*
+
 ```bash
 curl --location 'localhost:3000/products/import' \
 --form 'csv=@"/table_check_engine/inventory.csv"'

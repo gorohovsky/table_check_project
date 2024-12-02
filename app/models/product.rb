@@ -90,6 +90,6 @@ class Product
   private
 
   def cache_key
-    format CACHE_KEY_TEMPLATE % id
+    format(CACHE_KEY_TEMPLATE, id)
   end
 end

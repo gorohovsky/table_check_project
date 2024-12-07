@@ -29,7 +29,7 @@ Rails.root.glob('spec/support/**/*.rb').sort_by(&:to_s).each { |f| require f }
 RSpec.configure do |config|
   # clean MongoDB after each test
   config.after :each do
-    Mongoid.purge!
+    Mongoid.truncate!
   end
 
   config.include FactoryBot::Syntax::Methods

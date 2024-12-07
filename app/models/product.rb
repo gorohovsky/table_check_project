@@ -6,6 +6,7 @@ class Product
   field :default_price, type: Integer
   field :stock, type: Integer, default: 0
   field :demand, type: Integer, default: 0
+  index({ demand: -1 })
   index({ name: 1, category_id: 1 }, { unique: true })
 
   belongs_to :category
